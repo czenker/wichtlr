@@ -3,11 +3,18 @@ Wichtlr
 
 Wichtlr is a CLI script that helps you organize a Secret Santa.
 
-You know the problem: You and your social group are having a christmas party and you want to give away small gifts to each other. Of course you could draw notes from a hat to decide who gives a present to whom. But there are a few little problems: Usually there is at least one person drawing his own name. And even then it is not uncommon for someone to draw the name of his partner or a relative that they is going to give a gift anyway.
+You know the problem: You and your social group are having a christmas party and you want to give away small
+gifts to each other. Of course you could draw notes from a hat to decide who gives a present to whom. But
+there are a few little problems: Usually there is at least one person drawing their own name. And even then
+it is not uncommon for someone to draw the name of their partner or a relative that they were going to give
+a gift anyway.
 
 But you have to worry no more: Wichtlr can solve these problems.
 
-**Wichtlr** is a program that determines a random solution to your problem and avoids anyone having to give a gift to themselves or their partner. When a solution is found, every participant is informed via mail. It is also completely anonymous: Not even *you* will be able to figure who was assigned to whom – unless, of course, you edit the script (which by the way you are very welcome to) or have control over the mail server.
+**Wichtlr** is a program that determines a random solution to your problem and avoids anyone having to give a
+gift to themselves or their partner. When a solution is found, every participant is informed via mail. It
+is also completely anonymous: Not even *you* will be able to figure who was assigned to whom – unless,
+of course, you edit the script (which by the way you are very welcome to) or have control over the mail server.
 
 Features
 ------------
@@ -16,7 +23,7 @@ Features
  * **anonymous**
  * **send mails** via PHP, sendmail or smtp
  * **preview mode** where all mails are sent to one address
- * **recovery data** if someone looses his mail
+ * **recovery data** if someone looses their mail
  * send **plain text** and **HTML mails**
  * **embed inline images** in your HTML mails (animated snowflakes FTW!)
 
