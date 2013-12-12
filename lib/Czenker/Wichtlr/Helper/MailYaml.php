@@ -23,27 +23,42 @@
  * SOFTWARE.
  */
 
-use Czenker\Wichtlr\Domain\Participant;
-use Czenker\Wichtlr\Graph\Node;
+namespace Czenker\Wichtlr\Helper;
 
-class EdgeTest extends PHPUnit_Framework_TestCase {
+use Symfony\Component\Yaml\Yaml;
 
-    public function testSourceNode() {
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
+class MailYaml {
 
-        $edge = new \Czenker\Wichtlr\Graph\Edge($johnNode, $janeNode);
+    protected $filePathRelative;
+    protected $filePath;
+    protected $exampleFilePath;
 
-        $this->assertSame($johnNode, $edge->getSourceNode());
+    public function __construct() {
+        $this->filePathRelative = 'config/mail.yaml';
+        $this->filePath = __DIR__ . '/../../../../' . $this->filePathRelative;
+        $this->exampleFilePath = $this->filePath . '.example';
     }
 
-    public function testTargetNode() {
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
+    public function exists() {
+        return file_exists($this->filePath);
+    }
 
-        $edge = new \Czenker\Wichtlr\Graph\Edge($johnNode, $janeNode);
+    public function copyExampleFile() {
+        copy($this->exampleFilePath, $this->filePath);
+        chmod($this->filePath, 0666);
+    }
 
-        $this->assertSame($janeNode, $edge->getTargetNode());
+    public function getPath() {
+        return $this->filePathRelative;
+    }
+
+    public function getFullPath() {
+        return $this->filePath;
+    }
+
+    public function getConfiguration() {
+        $config = Yaml::parse(file_get_contents($this->filePath));
+        return $config;
     }
 
 }

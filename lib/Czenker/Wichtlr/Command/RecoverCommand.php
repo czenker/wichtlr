@@ -23,49 +23,40 @@
  * SOFTWARE.
  */
 
-use Czenker\Wichtlr\Domain\Participant;
-use Czenker\Wichtlr\Graph\Graph;
-use Czenker\Wichtlr\Graph\Node;
-use Czenker\Wichtlr\Graph\Service;
+namespace Czenker\Wichtlr\Command;
 
-class ServiceTest extends PHPUnit_Framework_TestCase {
+use Czenker\Wichtlr\Email\EmailFactory;
+use Czenker\Wichtlr\Graph\Graph;
+use Czenker\Wichtlr\Graph\GraphFactory;
+use Czenker\Wichtlr\Graph\Node;
+use Czenker\Wichtlr\Graph\NodeRepository;
+use Czenker\Wichtlr\Graph\Service;
+use Czenker\Wichtlr\Solver\RandomizedPath;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\SwiftMailer\Transport\MboxTransport;
+
+class RecoverCommand extends AbstractCommand {
 
     /**
-     * @var Service
+     * @var array
      */
-    protected $graphService;
+    protected $mailConfiguration = array();
 
-    public function setUp() {
-        $this->graphService = new Service();
+    protected function configure() {
+        $this
+            ->setName('recover')
+            ->setDescription('Recover the name of a donee if a mail went missing')
+        ;
     }
 
-    public function testConnectAllNodes() {
-        $graph = new Graph();
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
-        $aliceNode = new Node(new Participant('alice'));
-        $bobNode = new Node(new Participant('bob'));
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        $string1 = $this->dialogHelper->ask($this->output, 'The first string: ');
+        $string2 = $this->dialogHelper->ask($this->output, 'The second string: ');
 
-        $graph->addNode($johnNode);
-        $graph->addNode($janeNode);
-        $graph->addNode($aliceNode);
-        $graph->addNode($bobNode);
-
-        $this->graphService->connectAllNodes($graph);
-
-        $this->assertSame(4, $graph->countNodes(), 'still 4 nodes');
-
-        foreach($graph->getNodes() as $node) {
-            /** @var Node $node */
-            $this->assertSame(
-                3, $node->countEdges(),
-                sprintf('%s has 3 edges', $node)
-            );
-            $this->assertFalse(
-                $node->hasEdgeTo($node),
-                sprintf('%s has no edge to itself', $node)
-            );
-        }
+        $output->writeln($this->recoveryService->decrypt($string1, $string2));
     }
-
 }

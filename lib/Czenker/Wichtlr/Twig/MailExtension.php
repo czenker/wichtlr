@@ -23,27 +23,42 @@
  * SOFTWARE.
  */
 
-use Czenker\Wichtlr\Domain\Participant;
-use Czenker\Wichtlr\Graph\Node;
+namespace Czenker\Wichtlr\Twig;
 
-class EdgeTest extends PHPUnit_Framework_TestCase {
 
-    public function testSourceNode() {
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
+class MailExtension extends \Twig_Extension {
 
-        $edge = new \Czenker\Wichtlr\Graph\Edge($johnNode, $janeNode);
+    /**
+     * @var \Swift_Message
+     */
+    protected $message;
 
-        $this->assertSame($johnNode, $edge->getSourceNode());
+    public function setCurrentMessage(\Swift_Message $message) {
+        $this->message = $message;
     }
 
-    public function testTargetNode() {
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
-
-        $edge = new \Czenker\Wichtlr\Graph\Edge($johnNode, $janeNode);
-
-        $this->assertSame($janeNode, $edge->getTargetNode());
+    public function getFilters() {
+        return array(
+            new \Twig_SimpleFilter('image', array($this, 'image')),
+        );
     }
 
+    public function getFunctions() {
+        return array(
+            new \Twig_SimpleFunction('image', array($this, 'image')),
+        );
+    }
+
+    public function image($path) {
+        return $this->message->embed(\Swift_Image::fromPath('config/' . $path));
+    }
+
+    /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
+    public function getName() {
+        return 'mail';
+    }
 }

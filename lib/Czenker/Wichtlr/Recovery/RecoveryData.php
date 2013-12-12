@@ -23,49 +23,47 @@
  * SOFTWARE.
  */
 
-use Czenker\Wichtlr\Domain\Participant;
-use Czenker\Wichtlr\Graph\Graph;
-use Czenker\Wichtlr\Graph\Node;
-use Czenker\Wichtlr\Graph\Service;
+namespace Czenker\Wichtlr\Recovery;
 
-class ServiceTest extends PHPUnit_Framework_TestCase {
+
+use Czenker\Wichtlr\Domain\Participant;
+
+/**
+ * one piece of information to recover the name of the person $participant should give to
+ *
+ * @package Czenker\Wichtlr\Recovery
+ */
+class RecoveryData {
 
     /**
-     * @var Service
+     * @var Participant
      */
-    protected $graphService;
+    protected $participant;
 
-    public function setUp() {
-        $this->graphService = new Service();
+    /**
+     * @var string
+     */
+    protected $code;
+
+    public function __construct(Participant $participant, $code) {
+        $this->participant = $participant;
+        $this->code = $code;
     }
 
-    public function testConnectAllNodes() {
-        $graph = new Graph();
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
-        $aliceNode = new Node(new Participant('alice'));
-        $bobNode = new Node(new Participant('bob'));
-
-        $graph->addNode($johnNode);
-        $graph->addNode($janeNode);
-        $graph->addNode($aliceNode);
-        $graph->addNode($bobNode);
-
-        $this->graphService->connectAllNodes($graph);
-
-        $this->assertSame(4, $graph->countNodes(), 'still 4 nodes');
-
-        foreach($graph->getNodes() as $node) {
-            /** @var Node $node */
-            $this->assertSame(
-                3, $node->countEdges(),
-                sprintf('%s has 3 edges', $node)
-            );
-            $this->assertFalse(
-                $node->hasEdgeTo($node),
-                sprintf('%s has no edge to itself', $node)
-            );
-        }
+    /**
+     * @return string
+     */
+    public function getCode() {
+        return $this->code;
     }
+
+    /**
+     * @return \Czenker\Wichtlr\Domain\Participant
+     */
+    public function getParticipant() {
+        return $this->participant;
+    }
+
+
 
 }

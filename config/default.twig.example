@@ -1,0 +1,42 @@
+{#
+  For donor and donee, you can use the following properties:
+  * {{ donor.name }}
+  * {{ donor.email }}
+  * {{ donor.identifier }}
+#}
+{% block title %}Wichtlr{% endblock %}
+
+{% block plain %}
+Hi {{ donor.name }}.
+
+You are selected to get a gift for {{ donee.name }}.
+
+{% if recovery %}
+--
+Just in case a mail gets lost you can help with the following code
+
+{% for rec in recovery %}Code for {{ rec.participant.name }}: {{ rec.code }}
+{% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block html %}
+<table width="600" border="0" cellspacing="0" cellpadding="20">
+	<tr>
+		<td>
+			<p><b>Hi {{ donor.name }}</b></p>
+			<p>You are selected to get a gift for {{ donee.name }}.</p>
+
+			{% if recovery %}
+				<p style="color:#aaaaaa;">--</p>
+				<p style="color:#aaaaaa;">Just in case a mail gets lost you can help with the following code</p>
+				<ul style="color:#aaaaaa;">
+				{% for rec in recovery %}
+					<li>Code for {{ rec.participant.name }}: <code>{{ rec.code }}</code></li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		</td>
+	</tr>
+</table>
+{% endblock %}

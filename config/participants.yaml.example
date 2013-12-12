@@ -1,0 +1,15 @@
+# !! always use spaces for indentation !!
+john:
+    name: 'John Doe'
+    email: 'john@example.com'
+    not_to: ['jane']
+jane:
+    name: 'Jane Doe'
+    email: 'jane@example.com'
+    not_to: ['john', 'alice']
+alice:
+    name: 'Alice'
+    email: 'alice@example.com'
+bob:
+    name: 'Bob'
+    email: 'bob@example.com'

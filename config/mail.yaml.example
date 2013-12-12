@@ -1,0 +1,23 @@
+# !! always use spaces for indentation !!
+swiftmailer:
+    # smtp, mail, sendmail, mbox
+    transport:  mail
+
+    # only needed for smtp
+    # tls, or ssl
+    encryption: ssl
+    # plain, login, or cram-md5
+    auth_mode:  login
+    host:       smtp.gmail.com
+    port:       ~
+    username:   your_username
+    password:   your_password
+
+    # only needed for mbox
+    mbox_file:  out-mails.mbox
+
+mail:
+    from_email:     doe@example.com
+    from_name:      John Doe
+    reply_to_email: doe@example.com
+    reply_to_name:  John Doe

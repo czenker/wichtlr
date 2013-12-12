@@ -1,14 +1,18 @@
 {
     "name": "czenker/wichtlr",
-    "description": "CLI script to do Secret Santa right",
+    "description": "CLI script to do Secret Santa the right way",
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.3.3",
         "symfony/console": "~2.4",
         "swiftmailer/swiftmailer": "~5.0",
-        "psr/log": "1.0"
+        "twig/twig": "~1.15",
+        "symfony/yaml": "~2.4"
     },
     "autoload": {
-        "psr-0": {"Czenker\\": "lib/"}
+        "psr-0": {
+            "Czenker\\": "lib/",
+            "TYPO3\\": "lib/"
+        }
     }
 }

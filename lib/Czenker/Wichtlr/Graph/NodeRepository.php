@@ -23,27 +23,34 @@
  * SOFTWARE.
  */
 
-use Czenker\Wichtlr\Domain\Participant;
-use Czenker\Wichtlr\Graph\Node;
+namespace Czenker\Wichtlr\Graph;
 
-class EdgeTest extends PHPUnit_Framework_TestCase {
 
-    public function testSourceNode() {
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
+class NodeRepository {
 
-        $edge = new \Czenker\Wichtlr\Graph\Edge($johnNode, $janeNode);
+    /**
+     * @var array
+     */
+    protected $nodes = array();
 
-        $this->assertSame($johnNode, $edge->getSourceNode());
+    /**
+     * @param Node $node
+     * @throws \InvalidArgumentException
+     */
+    public function addNode(Node $node) {
+        $identifier = $node->getParticipant()->getIdentifier();
+        if(array_key_exists($identifier, $this->nodes) && $this->nodes[$identifier] !== $node) {
+            throw new \InvalidArgumentException(sprintf('The repository already contains a node with identifier %s.', $identifier));
+        }
+        $this->nodes[$identifier] = $node;
     }
 
-    public function testTargetNode() {
-        $johnNode = new Node(new Participant('john'));
-        $janeNode = new Node(new Participant('jane'));
-
-        $edge = new \Czenker\Wichtlr\Graph\Edge($johnNode, $janeNode);
-
-        $this->assertSame($janeNode, $edge->getTargetNode());
+    /**
+     * @param $identifier
+     * @return null|Node
+     */
+    public function findOneByIdentifier($identifier) {
+        return array_key_exists($identifier, $this->nodes) ? $this->nodes[$identifier] : NULL;
     }
 
 }
